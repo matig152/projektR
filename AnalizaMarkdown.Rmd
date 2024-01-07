@@ -7,10 +7,13 @@ output: html_document
 
 ### Wstęp
 Zbiór danych na jakim będziemy pracować zawiera procentowe wyniki studentów z trzech różnych egzaminów:
+
 * Math Score
 * Reading Score
 * Writing Score 
+
 oraz następujące zmienne kategoryczne:
+
 * płeć
 * rasa/przynależność etniczna
 * wykształcenie rodziców
@@ -29,6 +32,7 @@ library(ggplot2)
 ```{r}
 data <- read.csv("StudentsPerformance.csv")
 data <- data %>% mutate_at(c('gender', 'race.ethnicity', 'parental.level.of.education', 'lunch', 'test.preparation.course'), as.factor)
+colnames(data)<-c("Gender", "Race", "ParentsEducation", "Lunch", "TestPrepCourse", "MathScore", "ReadingScore", "WritingScore")
 ```
 
 
@@ -36,17 +40,71 @@ data <- data %>% mutate_at(c('gender', 'race.ethnicity', 'parental.level.of.educ
 **Podstawowe statystyki opisowe oraz histogramy wyników z poszczególnych egzaminów**
 ```{r, echo=FALSE, message=FALSE,  figures-side, fig.show="hold", out.width="33%"}
 summary(data[6:8])
-ggplot(data, aes(x=math.score)) + geom_histogram(fill="lightblue", color="blue", bins=32) + ggtitle("Math") + theme(plot.title = element_text(size = 30, face = "bold", hjust = 0.5))
-ggplot(data, aes(x=reading.score)) + geom_histogram(fill="lightgreen", color="darkgreen", bins=32) + ggtitle("Reading") + theme(plot.title = element_text(size = 30, face = "bold", hjust = 0.5))
-ggplot(data, aes(x=writing.score)) + geom_histogram(fill="pink", color="red", bins=32) + ggtitle("Writing") + theme(plot.title = element_text(size = 30, face = "bold", hjust = 0.5))
+ggplot(data, aes(x=MathScore)) + geom_histogram(fill="lightblue", color="blue", bins=32) + ggtitle("Math") + theme(plot.title = element_text(size = 30, face = "bold", hjust = 0.5))
+ggplot(data, aes(x=ReadingScore)) + geom_histogram(fill="lightgreen", color="darkgreen", bins=32) + ggtitle("Reading") + theme(plot.title = element_text(size = 30, face = "bold", hjust = 0.5))
+ggplot(data, aes(x=WritingScore)) + geom_histogram(fill="pink", color="red", bins=32) + ggtitle("Writing") + theme(plot.title = element_text(size = 30, face = "bold", hjust = 0.5))
 
 ```
 
-Licz
-```{r}
-summary(data[1:5])
+**Struktura zmiennych kategorycznych (binarnych)**
+```{r,echo=FALSE, message=FALSE,  figures-categorical, fig.show="hold", out.width="50%"}
+summary(select(data, Gender, Lunch, TestPrepCourse))
+
+
+ggplot(data, aes(x=1, y=1 ,fill=Gender)) + geom_col(position="fill")  +
+  scale_y_continuous(labels = scales::percent) + ggtitle("Proporcja kobiet i mężczyzn") +
+  theme(plot.title = element_text(size = 22, face = "bold", hjust = 0.5), 
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        legend.position = "bottom") +
+  scale_fill_manual(values=c('blue', 'lightblue')) 
+
+ggplot(data, aes(x=1, y=1 ,fill=TestPrepCourse)) + geom_col(position="fill")  +
+  scale_y_continuous(labels = scales::percent) + ggtitle("Ukończenie testu przygotowawczego") +
+  theme(plot.title = element_text(size = 22, face = "bold",hjust = 0.5), 
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        legend.position = "bottom") +
+  scale_fill_manual(values=c('darkgreen', 'lightgreen'))
+
+ggplot(data, aes(x=1, y=1 ,fill=Lunch)) + geom_col(position="fill")  +
+  scale_y_continuous(labels = scales::percent) + ggtitle("Rodzaj spożywanego lunchu") +
+  theme(plot.title = element_text(size = 22, face = "bold",hjust = 0.5), 
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        legend.position = "bottom") +
+  scale_fill_manual(values=c('red', 'pink'))
+
 ```
+\
+**Struktura zmiennych kategorycznych (wielowartościowych)**
 
+```{r,echo=FALSE, message=FALSE,  figures-categorical2, fig.show="hold", out.width="80%"}
+summary(select(data, Race, ParentsEducation))
 
+ggplot(data, aes(x=1, y=1 ,fill=Race)) + geom_col(position="fill")  +
+  scale_y_continuous(labels = scales::percent) + ggtitle("Rasa/przynależność etniczna") +
+  theme(plot.title = element_text(hjust = 0.5), 
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.x=element_blank()) +
+  scale_fill_manual(values=c('#0040ff','#3366ff','#668cff','#99b3ff','#ccd9ff'))  + coord_flip()
 
+ggplot(data, aes(x=1, y=1 ,fill=ParentsEducation)) + geom_col(position="fill")  +
+  scale_y_continuous(labels = scales::percent) + ggtitle("Wykształcenie rodziców") +
+  theme(plot.title = element_text(hjust = 0.5), 
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.x=element_blank()) +
+  scale_fill_manual(values=c('#004d00','#008000','#00e600','#33ff33','#80ff80','#ccffcc')) + coord_flip()
+
+```
 
