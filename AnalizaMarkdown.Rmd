@@ -6,38 +6,42 @@ output: html_document
 ---
 
 ### Wstęp
+
 Zbiór danych na jakim będziemy pracować zawiera procentowe wyniki studentów z trzech różnych egzaminów:
 
-* Math Score
-* Reading Score
-* Writing Score 
+-   Math Score
+-   Reading Score
+-   Writing Score
 
 oraz następujące zmienne kategoryczne:
 
-* płeć
-* rasa/przynależność etniczna
-* wykształcenie rodziców
-* rodzaj spożywanego lunchu
-* ukończenie testu przygotowującego do egzaminów
+-   płeć
+-   rasa/przynależność etniczna
+-   wykształcenie rodziców
+-   rodzaj spożywanego lunchu
+-   ukończenie testu przygotowującego do egzaminów
 
-[Link do zbioru danych](https://www.kaggle.com/datasets/spscientist/students-performance-in-exams?fbclid=IwAR2mgaWkdEd0aRKPPoUbOk2_QoRR-0uOxNsOTTieOuNIhz8MIbHpnEIpKMM) 
+[Link do zbioru danych](https://www.kaggle.com/datasets/spscientist/students-performance-in-exams?fbclid=IwAR2mgaWkdEd0aRKPPoUbOk2_QoRR-0uOxNsOTTieOuNIhz8MIbHpnEIpKMM)
 
 **Potrzebne pakiety**
+
 ```{r, results='hide', message=FALSE}
 library(dplyr)
 library(ggplot2)
 ```
 
 **Wczytanie danych i zamiana odpowiednich kolumn na factor**
+
 ```{r}
 data <- read.csv("StudentsPerformance.csv")
 data <- data %>% mutate_at(c('gender', 'race.ethnicity', 'parental.level.of.education', 'lunch', 'test.preparation.course'), as.factor)
 colnames(data)<-c("Gender", "Race", "ParentsEducation", "Lunch", "TestPrepCourse", "MathScore", "ReadingScore", "WritingScore")
 ```
 
-
 ### Struktura zbioru danych
+
 **Podstawowe statystyki opisowe oraz histogramy wyników z poszczególnych egzaminów**
+
 ```{r, echo=FALSE, message=FALSE,  figures-side, fig.show="hold", out.width="33%"}
 summary(data[6:8])
 ggplot(data, aes(x=MathScore)) + geom_histogram(fill="lightblue", color="blue", bins=32) + ggtitle("Math") + theme(plot.title = element_text(size = 30, face = "bold", hjust = 0.5))
@@ -47,6 +51,7 @@ ggplot(data, aes(x=WritingScore)) + geom_histogram(fill="pink", color="red", bin
 ```
 
 **Struktura zmiennych kategorycznych (binarnych)**
+
 ```{r,echo=FALSE, message=FALSE,  figures-categorical, fig.show="hold", out.width="50%"}
 summary(select(data, Gender, Lunch, TestPrepCourse))
 
@@ -82,6 +87,7 @@ ggplot(data, aes(x=1, y=1 ,fill=Lunch)) + geom_col(position="fill")  +
   scale_fill_manual(values=c('red', 'pink'))
 
 ```
+
 \
 **Struktura zmiennych kategorycznych (wielowartościowych)**
 
@@ -107,4 +113,3 @@ ggplot(data, aes(x=1, y=1 ,fill=ParentsEducation)) + geom_col(position="fill")  
   scale_fill_manual(values=c('#004d00','#008000','#00e600','#33ff33','#80ff80','#ccffcc')) + coord_flip()
 
 ```
-
