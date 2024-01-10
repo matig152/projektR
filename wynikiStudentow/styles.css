@@ -2,31 +2,60 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
 
 body {
-  background: white;
+  background: #176B87;
   color: black; /* text color */
   font-family: 'Oswald', sans-serif;
 }
 
-
-
 /* Make text visible on inputs */
 .shiny-input-container {
-  color: #474747;
+  color: black;
 }
 
+h2{
+  text-align: center;
+  margin: 20px auto;
+  color: #B4D4FF;
+}
+
+
+
 .navbar{
-  background-color: #000cbc;
+  background-color: #B4D4FF;
   color: white;
-  box-shadow: 0px 0px 10px grey;
-  border: 1px solid black;
-  border-radius: 10px;
+  box-shadow: 0px 0px 4px #B4D4FF;
+  border: 1px solid #176B87;
+  border-radius: 5px;
 }
 .navbar-nav{
-  background-color: #0000cbc;
+  background-color: #B4D4FF;
   color: white;
+}
+.navbar-nav li{transition: all .2s;color:#176B87}
+.navbar-nav li:hover{
+  background-color: #86B6F6;
+  color: white;
+}
+
+.navbar-nav .active a{
+  color: black;
 }
 
 .active a{
   background-color: #8cfffb;
   color: black;
+}
+
+
+.well{
+  background-color: #B4D4FF;
+  border: 1px solid #176B87;
+  box-shadow: 0px 0px 4px #B4D4FF;
+}
+.col-sm-8{
+  background-color: #B4D4FF;
+  padding: 5px;
+  border: 1px solid #176B87;
+  border-radius: 5px;
+  box-shadow: 0px 0px 4px #86B6F6;
 }

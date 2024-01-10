@@ -26,7 +26,26 @@ tabpanel2 <- tabPanel("Regresyjne drzewa klasyfikacyjne", uiOutput('page2'),
                         mainPanel(plotOutput('tree'))
                       )
 )
-
+tabpanel3 <- tabPanel("Wykresy pudełkowe wyników", uiOutput('page3'),
+                      sidebarLayout(
+                        sidebarPanel(
+                          radioButtons("corrVarX", "Wybierz zmienną wg której podzielić próbę", 
+                                       choices = list('Płeć' = 'Plec', 
+                                                      'Rasa' = 'Rasa', 
+                                                      'Wykształcenie rodziców' = 'WyksztalcenieRodzicow', 
+                                                      'Rodzaj spożywanego lunchu' = 'Lunch', 
+                                                      'Ukończenie testu przygotowującego' = 'Test')
+                          ),
+                          radioButtons("corrVarY", "Wybierz który z wyników odłożyć na osi Y:", 
+                                       choices = list(
+                                                      'Wynik z matematyki' = 'math.score', 
+                                                      'Wynik z pisania' = 'writing.score',
+                                                      'Wynik z czytania' = 'reading.score')
+                          )
+                        ),
+                        mainPanel(plotOutput('corr'))
+                      )
+)
 
 
 #RysujUI
@@ -37,7 +56,7 @@ fluidPage(
     titlePanel("Analiza wyników studentów"),
     # Wywolanie UI
     navbarPage("", collapsible = T, id="navbar", 
-          tabpanel1, tabpanel2
+          tabpanel1, tabpanel2, tabpanel3
     )
     
 )
