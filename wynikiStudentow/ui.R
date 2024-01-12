@@ -21,7 +21,8 @@ tabpanel2 <- tabPanel("Regresyjne drzewa klasyfikacyjne", uiOutput('page2'),
                                        choices = list('Wynik z matematyki' = 'math.score', 
                                                       'Wynik z pisania' = 'writing.score',
                                                       'Wynik z czytania' = 'reading.score'),
-                                      )
+                                      ), 
+                          sliderInput("cp", "Wybierz poziom złożoności drzewa (cp):",min = 0.01, max = 0.1,value = 0.02)
                         ),
                         mainPanel(plotOutput('tree'))
                       )

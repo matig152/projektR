@@ -41,11 +41,14 @@ function(input, output, session) {
       scor <- students_df[[scoreVar]]
       # RENDERUJ DRZEWKO
       formula <- paste0("scor ~ ", paste(vars, collapse=" + "))
-      rpart.plot(rpart(as.formula(formula) , data=students_df), 
+      rpart_obj <- rpart(as.formula(formula) , data=students_df, cp=input$cp)
+      rpart.plot(rpart_obj, 
                  tweak = 0.8, type=1, shadow.col = "#176B87", branch.lty = 5, extra = 101, 
                  fallen.leaves = T, leaf.round = 0, round = 0, branch.col = "#176B87", branch.lwd = 3, 
                  nn.round=0, split.cex =1.2)
+      #plotcp(rpart_obj)
     })
+  
     # Wykresy zależności zmiennych
     output$corr <- renderPlot({
       #ZBIERZ ZMIENNĄ X
